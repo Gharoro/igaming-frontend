@@ -38,7 +38,7 @@ export default function TopBar() {
             <button
               disabled={isPending}
               onClick={handleLogout}
-              className="flex items-center text-white border border-white py-2 gap-2 rounded w-fit"
+              className="flex items-center text-white border border-white py-2 px-8 gap-2 rounded w-fit"
             >
               {isPending ? (
                 <Spinner color="white" />
