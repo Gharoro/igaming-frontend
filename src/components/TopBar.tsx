@@ -14,7 +14,7 @@ export default function TopBar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 light-bg shadow-lg z-50 px-4 lg:px-0">
+    <div className="fixed top-0 left-0 right-0 light-bg shadow-lg z-50 px-4">
       <div className="container mx-auto space-y-4 lg:space-y-0">
         <div className="flex flex-row justify-between items-center space-y-4 lg:space-y-0 py-4">
           <a
@@ -38,7 +38,7 @@ export default function TopBar() {
             <button
               disabled={isPending}
               onClick={handleLogout}
-              className="flex items-center text-white border border-white py-2 px-6 gap-2 rounded w-fit"
+              className="flex items-center text-white border border-white py-2 gap-2 rounded w-fit"
             >
               {isPending ? (
                 <Spinner color="white" />

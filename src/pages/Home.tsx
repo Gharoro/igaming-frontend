@@ -53,10 +53,10 @@ export default function Home() {
 
   const handleJoinSession = () => {
     if (gameSession) {
-      mutate(gameSession?.sessionToken, {
+      mutate(gameSession?.id, {
         onSuccess: (response) => {
           showSuccess(response.message);
-          navigate(`/game/${gameSession.sessionToken}/play`);
+          navigate(`/game/${gameSession.id}/play`);
         },
       });
     }
