@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+body {
+  background-color: #111827 !important;
+}
+
+.light-bg {
+  background-color: #1f2937;
+}
+
+.text-secondary {
+  color: #8b5cf6;
+}
+
+.text-tertiary {
+  color: #9ba2ae;
+}
+
+.text-success {
+  color: #10b981;
+}
+
+.text-error {
+  color: #e24444;
+}
+
+.topbar-bg a:hover {
+  color: #ffffff !important;
+}
+
+.orange-bg {
+  background-color: #f59e18;
+}
+
+button {
+  cursor: pointer;
+}
+
+.bg-secondary {
+  background-color: #8b5cf6;
+  color: #ffffff;
+}
