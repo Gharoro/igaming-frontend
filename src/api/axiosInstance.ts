@@ -1,8 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { API_BASE_URL } from "../config/env";
 import { useAppStore } from "../store/useAppStore";
 import { callRefreshToken } from "./auth";
+import { REFRESH_TOKEN } from "../utils/constants";
+
+export const axiosBase = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+});
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
@@ -11,23 +19,6 @@ const axiosInstance = axios.create({
   },
   withCredentials: true,
 });
-
-const handleTokenRefresh = async (originalRequest: any) => {
-  try {
-    const { data } = await callRefreshToken();
-
-    if (data?.accessToken) {
-      useAppStore.getState().setAccessToken(data.accessToken);
-      originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
-    }
-
-    return axiosInstance(originalRequest); // Retry the original request
-  } catch (refreshError) {
-    useAppStore.getState().clearAuth();
-    window.location.href = "/login";
-    return Promise.reject(refreshError);
-  }
-};
 
 // Request Interceptor: Attach Access Token
 axiosInstance.interceptors.request.use(
@@ -47,18 +38,27 @@ axiosInstance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      originalRequest.url !== REFRESH_TOKEN
+    ) {
       originalRequest._retry = true;
 
       try {
-        const { data } = await handleTokenRefresh(originalRequest);
+        const { data } = await callRefreshToken();
 
-        if (data?.accessToken)
+        if (data?.accessToken) {
           useAppStore.getState().setAccessToken(data.accessToken);
 
-        originalRequest.headers.Authorization = `Bearer ${data?.accessToken}`;
-        return axiosInstance(originalRequest);
+          originalRequest.headers.Authorization = `Bearer ${data.accessToken}`;
+
+          return axiosInstance(originalRequest);
+        } else {
+          throw new Error("No access token received");
+        }
       } catch (refreshError) {
+        // Handle refresh failure - clear auth and redirect to login
         useAppStore.getState().clearAuth();
         window.location.href = "/login";
         return Promise.reject(refreshError);

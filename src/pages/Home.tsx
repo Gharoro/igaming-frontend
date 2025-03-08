@@ -73,7 +73,7 @@ export default function Home() {
         <p className="text-tertiary">Welcome back to your gaming session</p>
       </div>
 
-      <div className="mt-12 flex w-full space-x-8 items-center">
+      <div className="mt-12 flex flex-col lg:flex-row w-full space-x-0 space-y-8 lg:space-y-0 lg:space-x-8 items-center">
         <div className="border border-[#9ba2ae] rounded light-bg w-full p-6 space-y-2">
           <h2 className="text-success font-bold text-xl">Total Wins</h2>
           <h3 className="text-3xl font-bold text-white">
@@ -95,7 +95,7 @@ export default function Home() {
           {timeLeft ? (
             <>
               <FaRegClock className="text-orange-400 text-3xl" />
-              <p className="text-white">
+              <p className="text-white text-center">
                 There's an active session you can join in{" "}
                 <CountDownTimer countdownType="timeLeft" />
               </p>

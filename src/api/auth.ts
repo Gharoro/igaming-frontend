@@ -1,4 +1,5 @@
-import axiosInstance from "./axiosInstance";
+/* eslint-disable no-useless-catch */
+import axiosInstance, { axiosBase } from "./axiosInstance";
 import { handleApiError } from "../utils/apiError";
 import { LOGIN, LOGOUT, REFRESH_TOKEN, REGISTER } from "../utils/constants";
 import {
@@ -37,12 +38,10 @@ export const loginUser = async (username: string): Promise<LoginResponse> => {
 // Refresh token
 export const callRefreshToken = async (): Promise<RefreshTokenResponse> => {
   try {
-    const { data } = await axiosInstance.post<RefreshTokenResponse>(
-      REFRESH_TOKEN
-    );
+    const { data } = await axiosBase.post<RefreshTokenResponse>(REFRESH_TOKEN);
     return data;
   } catch (error) {
-    return handleApiError(error);
+    throw error;
   }
 };
 

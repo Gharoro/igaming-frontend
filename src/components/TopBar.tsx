@@ -14,13 +14,10 @@ export default function TopBar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 light-bg shadow-lg z-50 px-4">
+    <div className="fixed top-0 left-0 right-0 light-bg shadow-lg z-50 px-4 items-center">
       <div className="container mx-auto space-y-4 lg:space-y-0">
         <div className="flex flex-row justify-between items-center space-y-4 lg:space-y-0 py-4">
-          <a
-            href="/"
-            className="text-4xl lg:text-2xl font-bold text-secondary hover:text-white"
-          >
+          <a href="/" className="text-2xl lg:text-4xl font-bold text-secondary">
             iGaming
           </a>
 

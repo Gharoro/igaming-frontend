@@ -18,7 +18,7 @@ export default function Landing() {
         <div className="flex flex-col space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4 lg:items-center">
           {accessToken ? (
             <Link
-              className="flex space-x-2 items-center px-6 py-4 md:w-fit text-center text-white bg-secondary border border-[#8b5cf6] rounded active:text-secondary hover:bg-transparent hover:text-secondary focus:outline-none focus:ring font-semibold"
+              className="w-fit flex space-x-2 items-center px-6 py-4 text-center text-white bg-secondary border border-[#8b5cf6] rounded active:text-secondary hover:bg-transparent hover:text-secondary focus:outline-none focus:ring font-semibold"
               to="/home"
             >
               <span> Go Home</span>

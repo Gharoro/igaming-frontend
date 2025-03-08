@@ -51,7 +51,7 @@ export default function Result() {
   return (
     <div className="flex flex-col my-12">
       <Link
-        className="flex space-x-2 items-center px-6 py-4 md:w-fit text-center text-white bg-secondary border border-[#8b5cf6] rounded active:text-secondary hover:bg-transparent hover:text-secondary focus:outline-none focus:ring font-semibold"
+        className="flex space-x-2 items-center px-6 py-4 w-fit text-center text-white bg-secondary border border-[#8b5cf6] rounded active:text-secondary hover:bg-transparent hover:text-secondary focus:outline-none focus:ring font-semibold"
         to="/home"
       >
         <IoMdArrowBack className="font-semibold" />
@@ -85,7 +85,7 @@ export default function Result() {
         </h1>
       </div>
 
-      <div className="mt-12 flex w-full space-x-8 items-center">
+      <div className="mt-12 flex flex-col lg:flex-row w-full space-y-8 lg:space-y-0 space-x-0 lg:space-x-8 items-center">
         <div className="border border-[#9ba2ae] rounded light-bg w-full p-6 space-y-2">
           <h2 className="text-tertiary font-bold text-xl">Total Players</h2>
           <h3 className="text-3xl font-bold text-white">
@@ -102,9 +102,13 @@ export default function Result() {
 
       <div className="border border-[#9ba2ae] rounded light-bg w-full p-6 space-y-4 mt-12 flex flex-col">
         <div className="border-b border-b-[#9ba2ae] pb-4 flex justify-between items-center">
-          <h1 className="text-tertiary text-2xl font-semibold">Winners</h1>
+          <h1 className="text-tertiary text-base lg:text-2xl font-semibold">
+            Winners
+          </h1>
 
-          <h1 className="text-white text-2xl font-semibold">Selected Number</h1>
+          <h1 className="text-white text-base lg:text-2xl font-semibold">
+            Selected Number
+          </h1>
         </div>
         {gameResult?.winners.map((winner, i) => (
           <div
