@@ -6,7 +6,7 @@ import Spinner from "./Spinner";
 import CountDownTimer from "./CountDownTimer";
 
 export default function TopBar() {
-  const { accessToken, nextSessionIn } = useAppStore();
+  const { accessToken, nextSessionIn, setNextSessionIn } = useAppStore();
   const { mutate, isPending } = useLogoutUser();
 
   const handleLogout = () => {
@@ -26,7 +26,10 @@ export default function TopBar() {
               <FaRegClock className="text-orange-400 text-xl" />
               <p className="text-white text-xl">Next session starts in </p>
               <span className="text-orange-400 font-bold text-xl">
-                <CountDownTimer countdownType="nextSessionIn" />
+                <CountDownTimer
+                  countdownType="nextSessionIn"
+                  onComplete={() => setNextSessionIn(null)}
+                />
               </span>
             </div>
           )}
@@ -52,7 +55,10 @@ export default function TopBar() {
           <div className="lg:hidden justify-center items-center space-x-4 flex pb-8">
             <FaRegClock className="text-orange-400 text-2xl" />
             <p className="text-white text-2xl">Next session starts in </p>
-            <CountDownTimer countdownType="nextSessionIn" />
+            <CountDownTimer
+              countdownType="nextSessionIn"
+              onComplete={() => setNextSessionIn(null)}
+            />
           </div>
         )}
       </div>

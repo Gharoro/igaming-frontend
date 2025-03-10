@@ -8,7 +8,7 @@ export const useLogoutUser = () => {
     onSuccess: () => {
       const { clearAuth } = useAppStore.getState();
       clearAuth();
-      window.location.href = "/login";
+      window.location.reload();
     },
   });
 };
