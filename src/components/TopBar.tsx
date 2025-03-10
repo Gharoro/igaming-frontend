@@ -1,10 +1,10 @@
 import { BiLogOutCircle } from "react-icons/bi";
+import { useNavigate } from "react-router";
 import { FaRegClock } from "react-icons/fa";
 import { useAppStore } from "../store/useAppStore";
 import { useLogoutUser } from "../hooks/useLogout";
 import Spinner from "./Spinner";
 import CountDownTimer from "./CountDownTimer";
-import { useNavigate } from "react-router";
 
 export default function TopBar() {
   const { accessToken, clearAuth, nextSessionIn, setNextSessionIn } =
