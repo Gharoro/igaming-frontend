@@ -1,14 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { logout } from "../api/auth";
-import { useAppStore } from "../store/useAppStore";
+import { LOGOUT_QUERY_KEY } from "../utils/constants";
 
 export const useLogoutUser = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: logout,
     onSuccess: () => {
-      const { clearAuth } = useAppStore.getState();
-      clearAuth();
-      window.location.reload();
+      queryClient.invalidateQueries({ queryKey: [LOGOUT_QUERY_KEY] });
     },
   });
 };

@@ -4,13 +4,21 @@ import { useAppStore } from "../store/useAppStore";
 import { useLogoutUser } from "../hooks/useLogout";
 import Spinner from "./Spinner";
 import CountDownTimer from "./CountDownTimer";
+import { useNavigate } from "react-router";
 
 export default function TopBar() {
-  const { accessToken, nextSessionIn, setNextSessionIn } = useAppStore();
+  const { accessToken, clearAuth, nextSessionIn, setNextSessionIn } =
+    useAppStore();
   const { mutate, isPending } = useLogoutUser();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    mutate();
+    mutate(undefined, {
+      onSuccess: () => {
+        clearAuth();
+        navigate("/login");
+      },
+    });
   };
 
   return (
