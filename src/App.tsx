@@ -3,14 +3,12 @@ import Layout from "./components/Layout";
 import TopBar from "./components/TopBar";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import AuthRoute from "./components/AuthRoute";
-import {
-  GamePlay,
-  Home,
-  Landing,
-  Login,
-  Register,
-  Result,
-} from "./routes/routes";
+import Landing from "./pages/Landing";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
+import GamePlay from "./pages/GamePlay";
+import Result from "./pages/Result";
 
 function App() {
   return (
