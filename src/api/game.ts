@@ -3,6 +3,7 @@ import { handleApiError } from "../utils/apiError";
 import {
   FETCH_ACTIVE_GAME_SESSION,
   FETCH_GAME_RESULT,
+  FETCH_GAME_STATUS,
   FETCH_SINGLE_GAME_SESSION,
   FETCH_USER_STATS,
   JOIN_GAME_SESSION,
@@ -81,6 +82,16 @@ export const fetchGameResult = async (
 ): Promise<GameResultResponse> => {
   const { data } = await axiosInstance.get<GameResultResponse>(
     `${FETCH_GAME_RESULT}/${gameId}`
+  );
+  return data;
+};
+
+// Fetch game status
+export const fetchGameStatus = async (
+  gameId: string
+): Promise<ActiveGameSessionResponse> => {
+  const { data } = await axiosInstance.get<ActiveGameSessionResponse>(
+    `${FETCH_GAME_STATUS}/${gameId}`
   );
   return data;
 };

@@ -1,34 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import { FaRegClock } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
+import { useWindowSize } from "react-use";
+import Confetti from "react-confetti";
 import { useWebSocket } from "../hooks/useWebSocket";
 import { GameResultSocketResponse } from "../interfaces/interface";
 import { useAppStore } from "../store/useAppStore";
 import CountDownTimer from "../components/CountDownTimer";
-import { useFetchGameSessionResult } from "../hooks/useFetchGameResult";
-import { showError } from "../utils/responses";
 import { getInitials } from "../utils/getInitials";
 import { GAME_RESULT_EVENT, GAME_RESULT_MESSAGE } from "../utils/constants";
 import { formatNumber } from "../utils/formatNumber";
+import Loader from "../components/Loader";
+import { useFetchGameStatus } from "../hooks/useFetchGameStatus";
 
 export default function Result() {
   const { listen, unlisten, socket } = useWebSocket();
-  const { timeLeft } = useAppStore();
+  const { timeLeft, setTimeLeft, setNextSessionIn, user } = useAppStore();
   const { id } = useParams<{ id: string }>();
   const [gameResult, setGameResult] = useState<GameResultSocketResponse | null>(
     null
   );
-  const { data, error } = useFetchGameSessionResult(id as string);
+  const { data, isLoading, refetch } = useFetchGameStatus(id as string);
 
-  const handleGameResultFetched = useCallback(() => {
-    if (data) setGameResult(data);
-    if (error) return showError(error.message);
-  }, [data, error]);
+  const handleGameStatusFetched = useCallback(() => {
+    if (data && data.session?.isActive) {
+      setTimeLeft(data?.timeLeftInSeconds);
+    } else {
+      setTimeLeft(null);
+      getGameResult();
+      if (data?.nextSessionIn) setNextSessionIn(data?.nextSessionIn);
+    }
+  }, [data]);
 
   useEffect(() => {
-    handleGameResultFetched();
-  }, [handleGameResultFetched]);
+    handleGameStatusFetched();
+  }, [handleGameStatusFetched]);
 
   // Listen for WebSocket game result
   useEffect(() => {
@@ -44,9 +52,15 @@ export default function Result() {
   const getGameResult = () => {
     if (socket) {
       // Send request for game result
-      socket.emit(GAME_RESULT_MESSAGE, { gameId: id });
+      socket.emit(GAME_RESULT_MESSAGE, { gameId: id, userId: user?.id });
     }
   };
+
+  const { width, height } = useWindowSize();
+
+  if (isLoading) {
+    return <Loader count={10} />;
+  }
 
   return (
     <div className="flex flex-col my-12">
@@ -63,20 +77,26 @@ export default function Result() {
             Waiting for game result. Hang tight!
           </h2>
 
-          <div className="mt-8 text-center flex flex-col justify-center items-center space-y-4">
-            <FaRegClock className="text-orange-400 text-xl" />
-            <h1 className="text-white text-xl font-bold">Time Left</h1>
-            <span className="text-orange-400 text-xl font-bold">
-              {timeLeft && (
+          {timeLeft && (
+            <div className="mt-8 text-center flex flex-col justify-center items-center space-y-4">
+              <FaRegClock className="text-orange-400 text-xl" />
+              <h1 className="text-white text-xl font-bold">Time Left</h1>
+              <span className="text-orange-400 text-xl font-bold">
                 <CountDownTimer
                   countdownType="timeLeft"
-                  onComplete={() => getGameResult()}
+                  onComplete={() => refetch()}
                 />
-              )}
-            </span>
-          </div>
+              </span>
+            </div>
+          )}
         </>
       )}
+
+      {gameResult &&
+        gameResult.winningNumber ===
+          gameResult.currentPlayer?.selectedNumber && (
+          <Confetti numberOfPieces={500} width={width} height={height} />
+        )}
 
       <div className="border border-[#9ba2ae] rounded light-bg w-full p-6 space-y-4 mt-12 flex flex-col justify-center items-center">
         <h1 className="text-tertiary text-2xl font-semibold">Winning Number</h1>
@@ -96,6 +116,14 @@ export default function Result() {
           <h2 className="text-tertiary font-bold text-xl">Total Wins</h2>
           <h3 className="text-3xl font-bold text-success">
             {formatNumber(gameResult?.totalWins || 0) || "-"}
+          </h3>
+        </div>
+        <div className="border border-[#9ba2ae] rounded light-bg w-full p-6 space-y-2">
+          <h2 className="text-tertiary font-bold text-xl">
+            Your Selected Number
+          </h2>
+          <h3 className="text-3xl font-bold text-[#8b5cf6]">
+            {gameResult?.currentPlayer?.selectedNumber || "-"}
           </h3>
         </div>
       </div>

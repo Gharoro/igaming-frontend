@@ -8,6 +8,7 @@ export const GAME_QUERY_KEY = "game_session";
 export const JOIN_GAME_QUERY_KEY = "join_game";
 export const PLAY_GAME_QUERY_KEY = "play_game";
 export const GAME_RESULT_QUERY_KEY = "game_result";
+export const GAME_STATUS_QUERY_KEY = "game_status";
 export const USER_STATS_QUERY_KEY = "user_stats";
 
 // Api Endpoint
@@ -20,6 +21,7 @@ export const FETCH_SINGLE_GAME_SESSION = "/game/session";
 export const JOIN_GAME_SESSION = "/game/join";
 export const PLAY_GAME = "/game/play";
 export const FETCH_GAME_RESULT = "/game/result";
+export const FETCH_GAME_STATUS = "/game/status";
 export const FETCH_USER_STATS = "/game/user-stats";
 
 export const GAME_NUMBERS = [

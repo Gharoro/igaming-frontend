@@ -6,6 +6,15 @@ export interface User {
   createdAt: string;
 }
 
+export interface Player {
+  id: string;
+  createdAt: string;
+  gameId: string;
+  userId: string;
+  selectedNumber: number;
+  isWinner: boolean | null;
+}
+
 export interface GameSession {
   id: string;
   winningNumber: number;
@@ -85,7 +94,6 @@ export interface SessionUpdate {
   session: GameSession | null;
   timeLeftInSeconds: number | null;
   nextSessionIn: number | null;
-  status: string;
   totalPlayers: number | null;
 }
 
@@ -107,6 +115,7 @@ export interface PlayerStatusResponse {
 export interface GameResultSocketResponse {
   winningNumber: number;
   totalPlayers: number;
+  currentPlayer: { selectedNumber: number } | null;
   totalWins: number;
   winners: { user: { username: string } }[];
   nextSessionIn: number;
