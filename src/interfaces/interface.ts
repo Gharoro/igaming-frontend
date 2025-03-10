@@ -95,6 +95,7 @@ export interface SessionUpdate {
   timeLeftInSeconds: number | null;
   nextSessionIn: number | null;
   totalPlayers: number | null;
+  currentPlayer?: Player | null;
 }
 
 export interface JoinedSessionUpdate {

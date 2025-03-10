@@ -23,6 +23,9 @@ export default function Result() {
     null
   );
   const { data, isLoading, refetch } = useFetchGameStatus(id as string);
+  const [userSelectedNumber, setUserSelectedNumber] = useState<number | null>(
+    null
+  );
 
   const handleGameStatusFetched = useCallback(() => {
     if (data && data.session?.isActive) {
@@ -32,6 +35,8 @@ export default function Result() {
       getGameResult();
       if (data?.nextSessionIn) setNextSessionIn(data?.nextSessionIn);
     }
+
+    setUserSelectedNumber(data?.currentPlayer?.selectedNumber ?? null);
   }, [data]);
 
   useEffect(() => {
@@ -92,11 +97,9 @@ export default function Result() {
         </>
       )}
 
-      {gameResult &&
-        gameResult.winningNumber ===
-          gameResult.currentPlayer?.selectedNumber && (
-          <Confetti numberOfPieces={500} width={width} height={height} />
-        )}
+      {gameResult && gameResult.winningNumber === userSelectedNumber && (
+        <Confetti numberOfPieces={500} width={width} height={height} />
+      )}
 
       <div className="border border-[#9ba2ae] rounded light-bg w-full p-6 space-y-4 mt-12 flex flex-col justify-center items-center">
         <h1 className="text-tertiary text-2xl font-semibold">Winning Number</h1>
@@ -123,7 +126,7 @@ export default function Result() {
             Your Selected Number
           </h2>
           <h3 className="text-3xl font-bold text-[#8b5cf6]">
-            {gameResult?.currentPlayer?.selectedNumber || "-"}
+            {userSelectedNumber || "-"}
           </h3>
         </div>
       </div>
