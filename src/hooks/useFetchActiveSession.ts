@@ -6,5 +6,7 @@ export const useFetchActiveSession = () => {
   return useQuery({
     queryKey: [ACTIVE_GAME_QUERY_KEY],
     queryFn: () => fetchActiveGameSession(),
+    placeholderData: (previousData) => previousData,
+    refetchOnWindowFocus: true,
   });
 };

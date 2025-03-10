@@ -15,6 +15,7 @@ export const useFetchUserStats = () => {
       }
       return result;
     },
+    placeholderData: (previousData) => previousData,
     refetchOnWindowFocus: true,
   });
 };
