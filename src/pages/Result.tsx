@@ -61,6 +61,18 @@ export default function Result() {
     }
   };
 
+useEffect(() => {
+  const timeout = setTimeout(() => {
+    if (!gameResult) {
+      console.warn("No game result received within timeout. Retrying...");
+      getGameResult();
+    }
+  }, 5000);
+  
+  return () => clearTimeout(timeout);
+}, [gameResult]);
+
+
   const { width, height } = useWindowSize();
 
   if (isLoading) {
